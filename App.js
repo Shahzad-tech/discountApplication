@@ -73,7 +73,7 @@ const StartS=({navigation, route})=>{
   }
   useEffect(()=>{
   
-    // alert(DiscountPercentage)
+    
     calculateDiscount()
     if(OrginalPrice=="" || DiscountPercentage==""){
       setButtonCheck(true)
@@ -86,8 +86,7 @@ const StartS=({navigation, route})=>{
 
   
   const calculateDiscount =()=>{
-    // alert(OrginalPrice)
-    // alert(DiscountPercentage)
+  
     
     var x = parseFloat((OrginalPrice) * (DiscountPercentage/100)).toFixed(2)
     var y = parseFloat(OrginalPrice - x).toFixed(2)
@@ -102,41 +101,13 @@ const StartS=({navigation, route})=>{
   }
   const saveDdata=()=>{
     sethisList([...hislist, {key: Math.random().toString() ,"OriginalPrice": OrginalPrice, "Discount":DiscountPercentage,"FinalPrice": finalPrice }])
-    // updateSaveData(saveData+"\nOriginal: "+OrginalPrice +" Discount: "+DiscountPercentage+"% Final: "+finalPrice)
+   
     clearAttr()
   }
-  // const buttonEnableDisable=()=>{
-  //   if()
-  // }
-
-  // const Viewhis=()=>{
-  //   // alert(saveData)
-  //   return (
-  //     <View>
-  //       <Modal
-  //       animationType="slide"
-  //       transparent={true}
-  //       visible={modelVisibile}
-  //       >
-  //         <View>
-  //           <View>
-  //             <Text>Hello World</Text>
-  //             <TouchableHighlight onPress={()=>{setmodelVisibile(!modelVisibile)}}>
-  //             <Text>Hide Modal</Text>
-  //             </TouchableHighlight>  
-  //             </View>
-  //           </View>
-  //         </Modal>
-  //         <TouchableHighlight onPress={()=>{setmodelVisibile(true)}}>
-  //           <Text>Show Modal</Text>
-  //         </TouchableHighlight>
-  //       </View>
-         
-  //   )
-  // }
+ 
   const display=()=> {
     if(OrginalPrice!=0){
-      // alert(OrginalPrice)
+      
       return(
         <View >
         <Text  style = {{color:"black", fontWeight:"bold"}}>You Save: {SaveMoney}</Text>
@@ -163,12 +134,11 @@ const StartS=({navigation, route})=>{
       style={{ width: "45%" ,marginTop:"2%", borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center"}}
       placeholder="Original Price"
       keyboardType={"number-pad"}
-      // onKeyPress={(e)=>{writeOriginalPrice(e.nativeEvent.key)}}
+ 
       onChangeText={(text) => {inputValidations(text,"original_num")}}
-      // onKeyPress={(e)=>alert(e.nativeEvent.key)}
-      // onKeyPress={writeOriginalPrice(value)}
+    
       value = {OrginalPrice}
-      // editable = {false}
+   
        textAlign={'center'}
       />
 
@@ -186,34 +156,15 @@ const StartS=({navigation, route})=>{
        </View>
       </View>
       <View style={{width:"100%", marginTop:"8%", flexDirection:"row",justifyContent:"center"}}>
-        {/* <View style={{width:"32%",marginLeft:"1%"}}>
-        <Button title="Clear" onPress={()=>{clearAttr()}}>Clear</Button>
-        </View> */}
+        
         <View style={{width:"32%", marginLeft:"1%"}}>
         <TouchableOpacity title="Save" onPress={()=>{saveDdata()}} disabled={buttonCheck}><View style={{backgroundColor:"burlywood", height:35, justifyContent:"center", alignItems:"center"}}>
           <Text style={{fontSize:18, color:"white"}}>Save</Text></View></TouchableOpacity>
-        {/* <HistoryS listitems = {hislist} /> */}
+     
         </View>
-        {/* <View style={{width:"32%",marginLeft:"1%"}}>
-        <Button style={styles.textStyle} title="View History" onPress={()=>setmodelVisibile(true)}>View History</Button>
-        </View> */}
+       
       </View>
-      {/* <View style={styles.centeredView}>
-        <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modelVisibile}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>{saveData}</Text>
-              <TouchableHighlight style={{ ...styles.openButton, backgroundColor: "#2196F3" }} onPress={()=>{setmodelVisibile(!modelVisibile)}}>
-              <Text style={styles.textStyle}>Hide History</Text>
-              </TouchableHighlight>  
-              </View>
-            </View>
-          </Modal>
-        </View> */}
+      
       
     </View>
   )
@@ -237,7 +188,7 @@ const HistoryS=({navigation, route})=>{
 
   const clearAttr=()=>{
 
-    // var check  = -1
+   
     Alert.alert(
       "Clearing List",
       "Are you sure you want to delete this list?",
@@ -245,19 +196,16 @@ const HistoryS=({navigation, route})=>{
         {
           text: "Cancel",
           onPress: () => {} ,
-          // style: "cancel"
+         
         },
         { text: "Delete", onPress: () => {setdisplaylist([]);
           navigation.setParams(settingList([]))} }
       ],
-      // { cancelable: false }
+  
     );
     
     
-    // UpdateOrginalPrice(0);
-    // UpdateDiscountPercentage(0);
-    // updateSaveMoney(0);
-    // updateFinalPrince(0);
+  
   }
 
   navigation.setOptions({
@@ -280,7 +228,6 @@ const HistoryS=({navigation, route})=>{
             </DataTable.Header>
     </DataTable>
 
-    {/* <ScrollView> */}
       {displaylist.map((value, index)=>{
         return(
          <View>
@@ -303,7 +250,6 @@ const HistoryS=({navigation, route})=>{
           
         )})}
         
-    {/* </ScrollView> */}
   </View>
   );
 }
