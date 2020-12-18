@@ -36,22 +36,20 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useEffect } from 'react';
 
 
-const StartS=({navigation, route})=>{
+const StartS=({navigation})=>{
   
   const[OrginalPrice, UpdateOrginalPrice] = useState("")
   const[DiscountPercentage, UpdateDiscountPercentage] = useState("")
   const[SaveMoney, updateSaveMoney] = useState(0)
   const[finalPrice, updateFinalPrince] = useState(0)
-  const[saveData, updateSaveData] = useState("")//no use
-  const[modelVisibile, setmodelVisibile] = useState(false)
   const[hislist, sethisList] = useState([])
-  const[buttonCheck, setButtonCheck] = useState("");
+  const[buttonCheck, setButtonCheck] = useState(true);
 
 
-  navigation.setOptions({
-    headerRight:()=> <Button title = "History" onPress={()=>{navigation.navigate("History", {listitems: hislist, settingList: sethisList})}}>History</Button>
+  // navigation.setOptions({
+  //   headerRight:()=> <Button title = "History" onPress={()=>{navigation.navigate("History", {listitems: hislist, settingList: sethisList})}}/>
 
-  })
+  // })
 
   const inputValidations=(text, meth)=>{
     
@@ -73,14 +71,18 @@ const StartS=({navigation, route})=>{
   }
   useEffect(()=>{
   
-    
-    calculateDiscount()
+    navigation.setOptions({
+      headerRight:()=> <Button title = "History" onPress={()=>{navigation.navigate("History", {listitems: hislist, settingList: sethisList})}}/>
+  
+    })
+   
     if(OrginalPrice=="" || DiscountPercentage==""){
       setButtonCheck(true)
     }
     else{
       setButtonCheck(false)
     }
+    calculateDiscount()
   
   });
 
@@ -94,8 +96,8 @@ const StartS=({navigation, route})=>{
     updateFinalPrince(y) 
   }
   const clearAttr=()=>{
-    UpdateOrginalPrice(0);
-    UpdateDiscountPercentage(0);
+    UpdateOrginalPrice("");
+    UpdateDiscountPercentage("");
     updateSaveMoney(0);
     updateFinalPrince(0);
   }
@@ -137,7 +139,7 @@ const StartS=({navigation, route})=>{
  
       onChangeText={(text) => {inputValidations(text,"original_num")}}
     
-      value = {OrginalPrice}
+      value = {(OrginalPrice).toString()}
    
        textAlign={'center'}
       />
@@ -147,8 +149,8 @@ const StartS=({navigation, route})=>{
       style={{ width: "45%" , marginTop:"2%",borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center",}}
       placeholder="Discount Percentage"
       keyboardType={"number-pad"}
-      onChangeText={(text) => {inputValidations(text,"Discount"); calculateDiscount({DiscountPercentage})}}
-      value = {DiscountPercentage}
+      onChangeText={(text) => {inputValidations(text,"Discount");}}
+      value = {(DiscountPercentage).toString()}
        textAlign={'center'}
       />
       <View style={{marginTop:"8%"}}>
@@ -177,14 +179,16 @@ const HistoryS=({navigation, route})=>{
   const settingList = route.params.settingList;
   const [displaylist, setdisplaylist] = useState(listitems)
   
-  const remove= (value)=>{
-    
-    const updatedList = listitems.filter((val)=>val.key != value)
-    
-    navigation.setParams(settingList(updatedList))
-    setdisplaylist(updatedList)
 
-  }
+  useEffect(()=>{
+    
+    navigation.setOptions({
+      headerRight:()=> <Button title = "Clear" onPress={()=>{clearAttr()}}/>
+  
+    })
+
+  })
+  
 
   const clearAttr=()=>{
 
@@ -199,7 +203,7 @@ const HistoryS=({navigation, route})=>{
          
         },
         { text: "Delete", onPress: () => {setdisplaylist([]);
-          navigation.setParams(settingList([]))} }
+          navigation.setOptions(settingList([]))} }
       ],
   
     );
@@ -208,10 +212,7 @@ const HistoryS=({navigation, route})=>{
   
   }
 
-  navigation.setOptions({
-    headerRight:()=> <Button title = "Clear" onPress={()=>{clearAttr()}}/>
 
-  })
 
 
   return(
@@ -230,15 +231,19 @@ const HistoryS=({navigation, route})=>{
 
       {displaylist.map((value, index)=>{
         return(
-         <View>
+         <View key={value.key}>
            <DataTable>
-            <DataTable.Row  key={value.key}>
+            <DataTable.Row> 
             <DataTable.Cell>{index+1}</DataTable.Cell> 
             <DataTable.Cell>{value.OriginalPrice}</DataTable.Cell>
             <DataTable.Cell>{value.Discount}</DataTable.Cell>
             <DataTable.Cell>{value.FinalPrice} </DataTable.Cell>
             <DataTable.Cell style={{justifyContent:"flex-end"}}>
-            <TouchableOpacity style={{justifyContent:"center"}} onPress={()=>{remove(value.key)}}>
+            <TouchableOpacity style={{justifyContent:"center"}} onPress={()=>{
+              const updatedList = displaylist.filter((val,ind)=>index != ind);
+              navigation.setOptions(settingList(updatedList));
+              setdisplaylist(updatedList)
+}}>
               <Text style={{backgroundColor:"red", color:"white", textAlign:"right", fontSize:16, borderRadius:10}}>DEL</Text>
             </TouchableOpacity>
             </DataTable.Cell>
