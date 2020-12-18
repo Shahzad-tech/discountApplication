@@ -22,7 +22,8 @@ import {
   Modal,
   TouchableHighlight,
   Pressable,
-  Alert
+  Alert,
+  Keyboard
 } from 'react-native';
 
 import {
@@ -45,11 +46,6 @@ const StartS=({navigation})=>{
   const[hislist, sethisList] = useState([])
   const[buttonCheck, setButtonCheck] = useState(true);
 
-
-  // navigation.setOptions({
-  //   headerRight:()=> <Button title = "History" onPress={()=>{navigation.navigate("History", {listitems: hislist, settingList: sethisList})}}/>
-
-  // })
 
   const inputValidations=(text, meth)=>{
     
@@ -103,7 +99,7 @@ const StartS=({navigation})=>{
   }
   const saveDdata=()=>{
     sethisList([...hislist, {key: Math.random().toString() ,"OriginalPrice": OrginalPrice, "Discount":DiscountPercentage,"FinalPrice": finalPrice }])
-   
+    Keyboard.dismiss()
     clearAttr()
   }
  
@@ -121,19 +117,16 @@ const StartS=({navigation})=>{
 
   
   return(
-    <View>
-      <View style= {{width:"100%", justifyContent:"center", alignItems:"flex-end", marginTop:"1%" }} >
-    
-       </View>
-      <View style = {{marginTop:"1%",alignItems:"center", backgroundColor:"red", height:"15%", justifyContent:"center"}}>
-        <Text style = {{color:"white", fontWeight:"bold"}}>Discount Calculator App</Text>
+    <View >
+      <View style = {{marginTop:"2%",alignItems:"center", backgroundColor:"cadetblue", height:"15%", justifyContent:"center"}}>
+        <Text style = {{color:"white", fontSize:20, fontFamily:"sans-serif-thin"}}>Discount Calculator App</Text>
       </View>
 
       <View style ={{marginTop:"25%", alignItems:"center"}}>
 
-      <Text  style = {{color:"black", fontWeight:"bold"}} >Enter Original Price</Text>
+      <Text  style = {{color:"black", fontFamily:"notoserif", fontSize:17}} >Enter Original Price</Text>
       <TextInput
-      style={{ width: "45%" ,marginTop:"2%", borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center"}}
+      style={{ width: "45%" ,marginTop:"2%", borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center",borderColor:"indianred"}}
       placeholder="Original Price"
       keyboardType={"number-pad"}
  
@@ -144,9 +137,9 @@ const StartS=({navigation})=>{
        textAlign={'center'}
       />
 
-      <Text style = {{marginTop:"5%", fontWeight:"bold"}}>Enter the Discount</Text>
+      <Text style = {{marginTop:"5%",fontFamily:"notoserif", fontSize:17}}>Enter Discount</Text>
       <TextInput
-      style={{ width: "45%" , marginTop:"2%",borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center",}}
+      style={{ width: "45%" , marginTop:"2%",borderColor: 'gray', borderWidth: 2, color:"black", justifyContent:"center", textAlign:"center", borderColor:"indianred"}}
       placeholder="Discount Percentage"
       keyboardType={"number-pad"}
       onChangeText={(text) => {inputValidations(text,"Discount");}}
@@ -157,7 +150,7 @@ const StartS=({navigation})=>{
        {display()}
        </View>
       </View>
-      <View style={{width:"100%", marginTop:"8%", flexDirection:"row",justifyContent:"center"}}>
+      <View style={{width:"100%", marginTop:"5%", flexDirection:"row",justifyContent:"center"}}>
         
         <View style={{width:"32%", marginLeft:"1%"}}>
         <TouchableOpacity title="Save" onPress={()=>{saveDdata()}} disabled={buttonCheck}><View style={{backgroundColor:"burlywood", height:35, justifyContent:"center", alignItems:"center"}}>
@@ -264,9 +257,21 @@ const StackNavigator = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <StackNavigator.Navigator initialRouteName={"Start Screen"}>
-        <StackNavigator.Screen name="Start Screen" component={StartS} />
-        <StackNavigator.Screen name="History" component={HistoryS} />
+      <StackNavigator.Navigator initialRouteName={"Start Screen"} >
+        <StackNavigator.Screen name="Start Screen" component={StartS} options={{
+          headerTintColor:"teal",
+          headerStyle:{
+            backgroundColor:"lightcyan",
+            
+          }
+        }} />
+        <StackNavigator.Screen name="History" component={HistoryS}  options={{
+          headerTintColor:"teal",
+          headerStyle:{
+            backgroundColor:"lightcyan",
+            
+          }
+        }}/>
       </StackNavigator.Navigator>
     </NavigationContainer>
   );
